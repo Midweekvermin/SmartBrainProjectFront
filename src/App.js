@@ -8,44 +8,57 @@ import ParticlesBg from 'particles-bg';
 import FaceRecognition from './components/FaceRecognition/FaceRecognition';
 
 
-const setupClarify = (imageUrl) => {
+
+const Clarify = (imageUrl) => {
   // Your PAT (Personal Access Token) can be found in the portal under Authentification
   const PAT = '30a7e085f91e49249b88d13c26db2ac9';
   // Specify the correct user_id/app_id pairings
   // Since you're making inferences outside your app's scope
   const USER_ID = 'midweekvermin';       
-  const APP_ID = 'main';
+  const APP_ID = 'test';
   // Change these to whatever model and image URL you want to use
-  const MODEL_ID = 'face-detection';    
+  const MODEL_ID = 'face-detection';
+  
   const IMAGE_URL = imageUrl;
 
+  ///////////////////////////////////////////////////////////////////////////////////
+  // YOU DO NOT NEED TO CHANGE ANYTHING BELOW THIS LINE TO RUN THIS EXAMPLE
+  ///////////////////////////////////////////////////////////////////////////////////
+
   const raw = JSON.stringify({
-    "user_app_id": {
-        "user_id": USER_ID,
-        "app_id": APP_ID
-    },
-    "inputs": [
-        {
-            "data": {
-                "image": {
-                    "url": IMAGE_URL
-                }
-            }
-        }
-    ]
-});
-const requestOptions = {
-  method: 'POST',
-  headers: {
-      'Accept': 'application/json',
-      'Authorization': 'Key ' + PAT
-  },
-  body: raw
-};
-return requestOptions;
+      "user_app_id": {
+          "user_id": USER_ID,
+          "app_id": APP_ID
+      },
+      "inputs": [
+          {
+              "data": {
+                  "image": {
+                      "url": IMAGE_URL
+                  }
+              }
+          }
+      ]
+  });
+
+  const requestOptions = {
+      method: 'POST',
+      headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Key ' + PAT
+      },
+      body: raw
+  };
+
+  // NOTE: MODEL_VERSION_ID is optional, you can also call prediction with the MODEL_ID only
+  // https://api.clarifai.com/v2/models/{YOUR_MODEL_ID}/outputs
+  // this will default to the latest version_id
+
+  fetch("https://api.clarifai.com/v2/models/" + MODEL_ID  + "/outputs", requestOptions)
+      .then(response => response.json())
+      .then(result => console.log(result))
+      .catch(error => console.log('error', error));
 }
-
-
 
 
  
@@ -63,25 +76,7 @@ class App extends React.Component {
   }
 
   onButtonSubmit = () => {
-    fetch("https://api.clarifai.com/v2/models/" + "face-detection"+ "/outputs", setupClarify(this.state.input))
-    .then(response => response.json())
-    .then(response=>{
-      if (response) {
-        fetch('http://localhost:3000/image', {
-          method: 'put',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({
-            id: this.state.user.id
-          })
-        })
-        .then(response => response.json())
-        .then(count => {
-          this.setState(Object.assign(this.state.user, {entries:count}))
-        })
-      }
-     // this.displayFaceBox(this.calculateFaceLocation(response))
-    })
-    .catch(err => console.log(err));
+ Clarify(this.state.input);
   }
 
  render(){
@@ -94,11 +89,13 @@ class App extends React.Component {
       <Rank />
       <ImageLinkForm onInputChange={this.onInputChange} 
       onButtonSubmit={this.onButtonSubmit}/>
-      <FaceRecognition imageUrl={this.state.imageUrl} />
+      <FaceRecognition imageUrl = {this.state.input} />
       
     </div>
   );
  }
 }
+
+
 
 export default App;
