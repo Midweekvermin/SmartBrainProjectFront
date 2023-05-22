@@ -6,6 +6,7 @@ import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
 import Rank from './components/Rank/Rank';
 import ParticlesBg from 'particles-bg';
 import FaceRecognition from './components/FaceRecognition/FaceRecognition';
+import SignIn from './components/SignIn/SignIn';
 
 
 
@@ -19,6 +20,7 @@ class App extends React.Component {
       input:'',
       imageUrl: '',
       box: {},
+      route: 'signin',
     }
   }
    Clarify = (imageUrl) => {
@@ -116,14 +118,20 @@ class App extends React.Component {
     <div className="App">
       <ParticlesBg type="cobweb" bg={true} />
       <Navigation />
-    
+      { this.state.route === 'signin' 
+     ? <SignIn />
+    :
+      <div>
+        
       <Logo />
       <Rank />
       <ImageLinkForm onInputChange={this.onInputChange} 
       onButtonSubmit={this.onButtonSubmit}/>
       <FaceRecognition box={this.state.box} imageUrl = {this.state.input} />
       
-    </div>
+     </div>
+ }
+    </div> 
   );
  }
 }
