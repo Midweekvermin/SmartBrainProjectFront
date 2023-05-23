@@ -113,16 +113,20 @@ class App extends React.Component {
  this.Clarify(this.state.input);
   }
 
+  onRouteChange = (route) =>{
+    this.setState({route: route})
+  }
+
  render(){
   return (
     <div className="App">
       <ParticlesBg type="cobweb" bg={true} />
-      <Navigation />
+     
       { this.state.route === 'signin' 
-     ? <SignIn />
+     ? <SignIn onRouteChange={this.onRouteChange} />
     :
       <div>
-        
+         <Navigation onRouteChange={this.onRouteChange} />
       <Logo />
       <Rank />
       <ImageLinkForm onInputChange={this.onInputChange} 
