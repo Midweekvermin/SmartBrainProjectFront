@@ -7,7 +7,7 @@ import Rank from './components/Rank/Rank';
 import ParticlesBg from 'particles-bg';
 import FaceRecognition from './components/FaceRecognition/FaceRecognition';
 import SignIn from './components/SignIn/SignIn';
-
+import Register from './components/Register/Register';
 
 
 
@@ -21,6 +21,7 @@ class App extends React.Component {
       imageUrl: '',
       box: {},
       route: 'signin',
+      background: {},
     }
   }
    Clarify = (imageUrl) => {
@@ -124,8 +125,11 @@ class App extends React.Component {
      
       { this.state.route === 'signin' 
      ? <SignIn onRouteChange={this.onRouteChange} />
+    : (this.state.route === 'register'? <Register onRouteChange={this.onRouteChange}/> 
+    
     :
       <div>
+        
          <Navigation onRouteChange={this.onRouteChange} />
       <Logo />
       <Rank />
@@ -134,7 +138,7 @@ class App extends React.Component {
       <FaceRecognition box={this.state.box} imageUrl = {this.state.input} />
       
      </div>
- }
+ )}
     </div> 
   );
  }
