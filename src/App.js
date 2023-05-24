@@ -21,9 +21,9 @@ class App extends React.Component {
       imageUrl: '',
       box: {},
       route: 'signin',
-      background: {},
     }
   }
+
    Clarify = (imageUrl) => {
     // Your PAT (Personal Access Token) can be found in the portal under Authentification
     const PAT = '30a7e085f91e49249b88d13c26db2ac9';
@@ -83,7 +83,6 @@ class App extends React.Component {
   }
    
   
-  
    calculateFaceLocation = (data) => {
     const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
   
@@ -99,6 +98,7 @@ class App extends React.Component {
       bottomRow: height - (clarifaiFace.bottom_row * height)
      }
    };
+
   
    displayFaceBox = (box) => {
     this.setState({box: box});
