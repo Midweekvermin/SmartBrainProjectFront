@@ -31,10 +31,11 @@ constructor(props) {
     })
   })
   .then(response => response.json())
-  .then(response => {
-    if (response === 'signingin') {
+  .then(user => {
+    if (user.id) {
+      this.props.loadUser(user);
       this.props.onRouteChange('home');
-      console.log('it worked');
+     
     }
   })
   }

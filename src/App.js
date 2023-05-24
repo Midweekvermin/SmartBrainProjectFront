@@ -21,6 +21,13 @@ class App extends React.Component {
       imageUrl: '',
       box: {},
       route: 'signin',
+      user: {
+        id: '',
+        name: '',
+        email: '',
+        entries: '',
+        joined: ''
+      }
     }
   }
 
@@ -118,21 +125,31 @@ class App extends React.Component {
     this.setState({route: route})
   }
 
+  loadUser = (data) => {
+    this.setState({user: {
+      id: data.id,
+      name: data.name,
+      email: data.email,
+      entries: data.entries,
+      joined: data.joined
+    }})
+  }
+
  render(){
   return (
     <div className="App">
       <ParticlesBg type="cobweb" bg={true} />
      
       { this.state.route === 'signin' 
-     ? <SignIn onRouteChange={this.onRouteChange} />
-    : (this.state.route === 'register'? <Register onRouteChange={this.onRouteChange}/> 
+     ? <SignIn loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
+    : (this.state.route === 'register'? <Register onRouteChange={this.onRouteChange} loadUser={this.loadUser}/> 
     
     :
       <div>
         
          <Navigation onRouteChange={this.onRouteChange} />
       <Logo />
-      <Rank />
+      <Rank name = {this.state.user.name} entries={this.state.user.entries}/>
       <ImageLinkForm onInputChange={this.onInputChange} 
       onButtonSubmit={this.onButtonSubmit}/>
       <FaceRecognition box={this.state.box} imageUrl = {this.state.input} />
