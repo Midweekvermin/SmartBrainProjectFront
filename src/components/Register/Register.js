@@ -30,7 +30,7 @@ class Register extends React.Component {
 
     onSubmitSignIn = (event) => {
       event.preventDefault();
-    fetch('http://localhost:3000/register', {
+    fetch('http://localhost:80/register', {
       method: 'post',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
@@ -52,7 +52,7 @@ class Register extends React.Component {
   render(){
     const onRouteChange = this.props;
   return (
-        <div className='pa7'>
+        <div className='pt7'>
         <article className="br3 shadow-5 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw5 center">
         <main className="pa4 black-80">
         <form className="measure center">
